@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin Jackson | Responsive 3D World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Poppins:wght@300;400;600&display=swap');
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            background: #010105;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Responsive Navigation */
+        nav {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+            width: 95%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid #8b5cf6;
+            color: #8b5cf6;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-family: 'Orbitron';
+            font-size: 0.55rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        nav a:hover {
+            background: #8b5cf6;
+            color: #fff;
+            box-shadow: 0 0 15px #8b5cf6;
+        }
+
+        /* Main Content Container */
+        .viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            pointer-events: none;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .info-panel {
+            background: rgba(15, 15, 25, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            backdrop-filter: blur(30px);
+            pointer-events: auto;
+            position: absolute;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .info-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        h1 {
+            font-family: 'Orbitron';
+            color: #8b5cf6;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: 'Orbitron';
+            color: #8b5cf6;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            border-left: 4px solid #8b5cf6;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input,
+        textarea {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.85rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .send-btn {
+            background: #8b5cf6;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            box-shadow: 0 0 20px #8b5cf6;
+            transform: scale(1.02);
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            nav { top: 25px; gap: 12px; }
+            nav a { font-size: 0.65rem; padding: 8px 15px; }
+            h1 { font-size: 2.2rem; }
+            .info-panel { padding: 40px; max-height: 85vh; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a onclick="et('home', 0, 0, 35)">HOME</a>
+        <a onclick="et('skills', 2, 1, 25)">SKILLS</a>
+        <a onclick="et('projects', -1, -2, 22)">PROJECTS</a>
+        <a onclick="et('edu', -2, 1, 26)">EDUCATION</a>
+        <a onclick="et('exp', 1, -2, 26)">EXPERIENCE</a>
+        <a onclick="et('contact', 0, -3.5, 20)">CONTACT</a>
+    </nav>
+
+    <div class="viewport">
+        <div id="home-panel" class="info-panel active">
+            <h1>Justin Jackson</h1>
+            <p style="font-size: 0.9rem;">I am a creative and detail-oriented Front-End Developer and UI/UX Designer with strong knowledge of MS Office tools. I focus on clean design, smooth user experience, and delivering quality work on time.</p>
+        </div>
+
+        <div id="skills-panel" class="info-panel">
+            <h2>Expertise</h2>
+            <div class="detail-card">MS Office - 100%</div>
+            <div class="detail-card">UI/UX Design - 60%</div>
+            <div class="detail-card">Figma & VS Code - 65%</div>
+        </div>
+
+        <div id="projects-panel" class="info-panel">
+            <h2>Projects</h2>
+            <div class="detail-card"><b>Student System Booking</b><p style="font-size: 0.8rem;">IITM-CSTF Development.</p></div>
+            <div class="detail-card"><b>Portfolio Website</b><p style="font-size: 0.8rem;">Modern 3D branding.</p></div>
+        </div>
+
+        <div id="edu-panel" class="info-panel">
+            <h2>Education</h2>
+            <div class="detail-card"><b>ITI Ambattur (2024-2025)</b><p>Computer Operator and Programming</p></div>
+            <div class="detail-card"><b>Govt Higher Secondary</b><p>Year: 2023-2024 (10th Pass)</p></div>
+        </div>
+
+        <div id="exp-panel" class="info-panel">
+            <h2>Experience</h2>
+            <div class="detail-card"><b>IIT Madras - Computer Admin</b><p style="font-size: 0.8rem;">2 Years Exp.</p></div>
+        </div>
+
+        <div id="contact-panel" class="info-panel">
+            <h2>Connect</h2>
+            <form action="https://formspree.io/f/mkovzgqb" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Message" required></textarea>
+                <button type="submit" class="send-btn">SEND MESSAGE</button>
+            </form>
+            <div style="margin-top:15px; font-size: 1.5rem; display:flex; justify-content:center; gap:20px;">
+                <a href="#" style="color:#fff;"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/7904854348/" style="color:#fff;"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" style="color:#fff;"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="bg"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const globe = new THREE.Mesh(new THREE.SphereGeometry(12, 32, 32), new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.2 }));
+        scene.add(globe);
+
+        const stars = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ size: 0.05, color: 0x8b5cf6 }));
+        const starVertices = [];
+        for (let i = 0; i < 2000; i++) starVertices.push((Math.random() - 0.5) * 150, (Math.random() - 0.5) * 150, (Math.random() - 0.5) * 150);
+        stars.geometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+        scene.add(stars);
+
+        scene.add(new THREE.PointLight(0x8b5cf6, 2, 100), new THREE.AmbientLight(0xffffff, 0.2));
+        camera.position.z = 40;
+
+        function et(id, rx, ry, z) {
+            document.querySelectorAll('.info-panel').forEach(p => p.classList.remove('active'));
+            gsap.to(globe.rotation, { x: rx, y: ry, duration: 1.5 });
+
+            let finalZ = window.innerWidth < 768 ? z + 12 : z;
+            gsap.to(camera.position, {
+                z: finalZ, duration: 1.5, onComplete: () => {
+                    document.getElementById(id + '-panel').classList.add('active');
+                }
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            globe.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+
+</html>
